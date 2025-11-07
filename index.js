@@ -19,7 +19,7 @@ const server = http.createServer(app);
 // ✅ Setup Socket.IO on top of HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3000" || "https://saasadmindashboard.netlify.app/login",
     credentials: true,
   },
 });
