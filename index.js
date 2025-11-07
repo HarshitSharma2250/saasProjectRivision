@@ -15,11 +15,14 @@ const app = express(); // rename 'server' to 'app' for clarity
 
 // ✅ Create an HTTP server from Express app
 const server = http.createServer(app);
-
+const allowedOrigins = [
+  "http://localhost:3000", // local frontend
+  "https://saasadmindashboard.netlify.app", // deployed frontend
+];
 // ✅ Setup Socket.IO on top of HTTP server
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000" || "https://saasadmindashboard.netlify.app",
+cors: {
+    origin: allowedOrigins,
     credentials: true,
   },
 });
@@ -31,7 +34,7 @@ setupPresence(io);
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
