@@ -1,18 +1,19 @@
 // db/redis.js
 const { createClient } = require("redis");
+require("dotenv").config()
 
-// ✅ Create a Redis client instance
+
 const redisClient = createClient({
-  url: "redis://localhost:6379",
+  url: process.env.REDIS_URL || "redis://red-d46svpogjchc73en03p0:6379",
 });
 
-// ✅ Add listeners
+
 redisClient.on("connect", () => console.log("✅ Redis connected successfully"));
 redisClient.on("ready", () => console.log("🚀 Redis is ready to use"));
-redisClient.on("error", (err) => console.error("❌ Redis error:", err));
+redisClient.on("error", (err) => console.error("Redis error:", err));
 redisClient.on("end", () => console.log("🔌 Redis connection closed"));
 
-// ✅ Connect once (only when imported)
+
 (async () => {
   try {
     if (!redisClient.isOpen) {
@@ -23,6 +24,5 @@ redisClient.on("end", () => console.log("🔌 Redis connection closed"));
   }
 })();
 
-// ✅ Export instance so it can be used anywhere
 module.exports = redisClient;
 
